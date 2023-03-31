@@ -26,6 +26,14 @@ const Total2 = (props) => {
   return <p>Number of exercises {props.exercises1 - props.exercises2 - props.exercises3}</p>
 }
 
+const Total3 = (props) => {
+  return <p>Number of exercises {props.exercises1 * props.exercises2 * props.exercises3}</p>
+}
+
+const Combinado = (props) => {
+  return <h1>{props.course} {props.part1}</h1>
+}
+
 
 const App = () => {
   const course = 'Half Stack application development'
@@ -38,6 +46,7 @@ const App = () => {
 
   return (
     <div>
+      <Combinado course={course} part1={part1}></Combinado>
       <Header course={course} />
       <p>
         <Content part1={part1} exercises1={exercises1} />
@@ -50,6 +59,7 @@ const App = () => {
       </p>
       <Total exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
       <Total2 exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
+      <Total3 exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
     </div>
   )
 }
