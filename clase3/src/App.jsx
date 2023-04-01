@@ -1,49 +1,63 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
-function App() {
-  const [contador, setContador] = useState(0)
+const WarningNotUsed = () => {
+  return <h1>Todavia no se usa el contador</h1>
+}
 
-  const handleClick = (valor) => {
-    setContador(contador + valor);
+const ListOfClicks = ({ clicks }) => {
+  return <p>{clicks.join(", ")}</p>
+}
+
+// const INITIAL_STATE = {
+//   left: 2,
+//   right: 5,
+//   mensaje: 'Valor iniciar',
+// }
+
+const App = () => {
+
+  // const [left, setLeft] = useState(0)
+  // const [right, setRight] = useState(0)
+
+  // const [counters, setCounters] = useState(INITIAL_STATE)
+
+  const [clicks, setClicks] = useState([])
+
+
+  const handleClickLeft = (event) => {
+    setClicks((prevClicks) => [...prevClicks, ' L'])
   }
 
-  // const handleClick = () => {
-  //   setContador(contador - 1)
-  // }
+  const handleClickRight = () => {
+    setClicks((prevClicks) => [...prevClicks, ' R'])
+  }
 
   const handleReset = () => {
-    setContador(0)
+    setClicks([])
   }
 
-  const esPar = contador % 2 === 0
-  const msgPI = esPar ? 'Es Par' : 'Es Impar'
+  const left = clicks.filter((click) => click === 'L')
+  const right = clicks.filter((click) => click === 'R')
 
   return (
     <div>
-      <h1>{contador}</h1>
-      <div className='button-container'>
-        <p>{msgPI}</p>
-        <button
-          onClick={() => handleClick(1)}
-        >
-          Incrementar
-        </button>
+      <div className="button-container">
+        {left.length} <button className='button-container' onClick={handleClickLeft}>Left</button>
+        <button className='button-container' onClick={handleClickRight}>Right</button> {right.length}
 
-        <button
-          onClick={() => handleClick(-1)}
-        >
-          Reducir
-        </button>
-
-        {/* <button
-          onClick={handleReset}
-        >
-          Resetear
-        </button> */}
       </div>
-    </div>
-  )
+      <div className='button-container'>
+        <button onClick={handleReset}>Reset</button>
+      </div>
+      <div className='clicks'>
+        <p>Clicks totales: {clicks.length}</p>
+        {clicks.length === 0 ? (<WarningNotUsed />) : (<ListOfClicks clicks={clicks} />)}
+      </div>
 
+
+    </div>
+
+  )
 }
 
 export default App
