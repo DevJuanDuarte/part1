@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+
 const WarningNotUsed = () => {
   return <h1>Todavia no se usa el contador</h1>
 }
@@ -24,7 +25,7 @@ const App = () => {
   const [clicks, setClicks] = useState([])
 
 
-  const handleClickLeft = (event) => {
+  const handleClickLeft = () => {
     setClicks((prevClicks) => [...prevClicks, ' L'])
   }
 
