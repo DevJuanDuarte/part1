@@ -1,11 +1,10 @@
 import React from 'react'
 
-const Note = ({content,date, categories = []}) => {
+const Note = ({title,body}) => {
   return (
     <li>
-        <p>{content}</p>
-        <small><time>{date}</time></small>
-        <p>{categories}</p>
+        <p>{title}</p>
+        <small><time>{body}</time></small>
     </li>
   )
 }

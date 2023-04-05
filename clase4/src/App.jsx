@@ -1,14 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import Note from './components/Note'
+import axios from 'axios'
+import { getAllNotes } from './services/notes/getAllnotes'
+import { createNote } from './services/notes/createNote'
 
 //Rederizando una colección:
 
-const App = (props) => {
+const App = () => {
 
-  const [notes, setNotes] = useState(props.notes)
+  const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState("")
-  const [showAll,setShowAll] = useState(true)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+
+    console.log('UseEffect');
+    setLoading(true)
+
+    getAllNotes().then((notes)=>{
+      setNotes(notes)
+      setLoading(false)
+    })
+    
+  }, [])
 
   const handleChange = (event) => {
     setNewNote(event.target.value)
@@ -19,39 +34,34 @@ const App = (props) => {
     console.log("Crear nota");
 
     const notesToAddToState = {
-      id: notes.length + 1,
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5
+      title: newNote,
+      body: newNote,
+      userId: 1
     }
 
-    setNotes([...notes, notesToAddToState])
+    createNote(notesToAddToState)
+      .then(newNote => {
+        setNotes(prevNotes => prevNotes.concat(newNote))
+      })
+
+
+    // setNotes([...notes, notesToAddToState])
     setNewNote("")
   }
 
-  const handleShowOut = () => {
-    setShowAll(()=> {
-      return !showAll
-    })
-  }
+  console.log('Render');
+
 
   return (
     <div>
 
       <h1>Notes</h1>
 
-      <button onClick={handleShowOut}>{showAll ?  "Show Ony Important" : "Show All"}</button>
+
 
       <ol>
-        {
-          notes
-          .filter(note => {
-            if (showAll === true) return true
-            return note.important === true
-          })
-          .map((note) => {
-          return <Note key={note.id} {...note} />
-        })}
+        {loading ? 'cargando' : ''}
+        {notes.map((note) => { return <Note key={note.id} {...note} /> })}
       </ol>
 
       <form onSubmit={handleSubmit}>
